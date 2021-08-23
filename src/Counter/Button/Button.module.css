@@ -1,0 +1,21 @@
+.btn {
+    outline: none;
+    background-color: #fff;
+    cursor: pointer;
+    color:#000;
+    font-size: 24px;
+    transition: all 0.5s;
+    border-radius: 5px;
+}
+.btn:hover{
+    background-color: #86b6ec;
+}
+.btn:disabled{
+    background-color: #c1bfbf;
+    color: #eeeded;
+    cursor: initial;
+}
+.btn:active{
+    background: #3e3e3e;
+    color:#fff;
+}

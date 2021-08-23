@@ -1,0 +1,22 @@
+.counter {
+    width: 500px;
+    border: 2px solid #002dfe;
+    margin: 0 auto;
+    display: grid;
+    grid-template: 1fr 50px  / 1fr;
+    align-items: center;
+    padding:20px;
+    background: #3e3e3e;
+    row-gap: 20px;
+    border-radius: 5px;
+}
+.buttons {
+    display: grid;
+    grid-template: 1fr / 200px 200px;
+    justify-content: space-between;
+    align-self: stretch;
+}
+.red{
+    color: red !important;
+    font-weight: 700;
+}

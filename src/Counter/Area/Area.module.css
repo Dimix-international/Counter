@@ -1,0 +1,11 @@
+.area {
+    height: 250px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #002dfe;
+    font-size: 48px;
+    background-color: #fff;
+    color:#000;
+    border-radius: 5px;
+}
