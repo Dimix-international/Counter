@@ -1,0 +1,72 @@
+.modal {
+    position: fixed;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow: auto;
+    overflow-x: hidden;
+    transition: all 0.8s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.dialog {
+    justify-content: center;
+    align-items: center;
+    max-height: 80vh;
+    background-color: #fff;
+    border-radius: 5px;
+    width: 600px;
+    padding: 10px;
+}
+
+.header__content {
+    position: relative;
+    margin-bottom: 15px;
+}
+.data {
+    display: grid;
+    grid-template: 1fr 1fr / 150px 300px;
+    row-gap: 5px;
+    margin-bottom: 10px;
+}
+.data__title {
+    text-align: left;
+    font-size: 18px;
+}
+.title {
+    text-align: center;
+    font-size: 32px;
+    font-weight: 700;
+}
+.close {
+    position: absolute;
+    right: 10px;
+    top:17px;
+    font-size: 48px;
+    line-height: 0;
+    cursor: pointer;
+    color:#000;
+    transition: color 0.5s;
+}
+.close:hover{
+    color:red;
+}
+.mode__title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+.mode__title div {
+    margin-right: 10px;
+}
+
+.error {
+    border: 2px solid red;
+}
+.btn__accept {
+    width: 130px;
+}

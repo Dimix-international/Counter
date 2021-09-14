@@ -1,0 +1,20 @@
+.container {
+    display: flex;
+    align-items: center;
+}
+.play {
+    width: 0;
+    height: 0;
+    border-left: 30px solid grey;
+    border-bottom: 15px solid transparent;
+    border-top: 15px solid transparent;
+    cursor: pointer;
+}
+.play.active {
+    border-left: 30px solid green;
+}
+.advise {
+    color:darkblue;
+    padding: 5px;
+    font-size: 14px;
+}

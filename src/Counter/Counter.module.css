@@ -3,7 +3,7 @@
     border: 2px solid #002dfe;
     margin: 0 auto;
     display: grid;
-    grid-template: 1fr 50px  / 1fr;
+    grid-template: 1fr auto  / 1fr;
     align-items: center;
     padding:20px;
     background: #3e3e3e;
@@ -12,11 +12,23 @@
 }
 .buttons {
     display: grid;
-    grid-template: 1fr / 200px 200px;
-    justify-content: space-between;
-    align-self: stretch;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas:
+            "action reset"
+            "settings settings";
+    gap: 10px;
 }
 .red{
     color: red !important;
     font-weight: 700;
+}
+.action {
+    grid-area: action !important;
+}
+.reset {
+    grid-area: reset !important;
+}
+.settings{
+    grid-area: settings !important;
 }

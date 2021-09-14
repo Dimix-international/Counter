@@ -1,14 +1,17 @@
 import React from 'react';
 import './App.css';
 import {Counter} from "./Counter/Counter";
+import {HashRouter} from "react-router-dom";
 
 
 
 function App() {
     return (
-        <div className="App">
-            <Counter/>
-        </div>
+        <HashRouter>
+            <div className="App">
+                <Counter/>
+            </div>
+        </HashRouter>
     );
 }
 
