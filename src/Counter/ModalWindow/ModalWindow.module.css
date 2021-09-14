@@ -21,6 +21,11 @@
     width: 600px;
     padding: 10px;
 }
+@media (max-width: 600px) {
+    .dialog {
+        width: 80%;
+    }
+}
 
 .header__content {
     position: relative;
@@ -28,7 +33,7 @@
 }
 .data {
     display: grid;
-    grid-template: 1fr 1fr / 150px 300px;
+    grid-template: 1fr 1fr / minmax(75px ,150px) minmax(150px ,300px);
     row-gap: 5px;
     margin-bottom: 10px;
 }
