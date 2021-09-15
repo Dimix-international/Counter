@@ -74,59 +74,60 @@ export const Counter = () => {
     }, [autoPlayOption]);
 
 
-/*    useEffect(() => {
-        let id: any = ''
-        if (startAutoPlay) {
-            id = setTimeout(() => {
-                if (conditionOfWork === 'decrease') {
-                    if (currentValue > startValue) {
-                        setCurrentValue(value => value - 1);
+    /*    useEffect(() => {
+            let id: any = ''
+            if (startAutoPlay) {
+                id = setTimeout(() => {
+                    if (conditionOfWork === 'decrease') {
+                        if (currentValue > startValue) {
+                            setCurrentValue(value => value - 1);
+                        }
+                        else {
+                            setStartAutoPlay(false);
+                        }
+                    } else {
+                        if (currentValue < finishValue) {
+                            setCurrentValue(value => value + 1);
+                        }
+                        else {
+                            setStartAutoPlay(false);
+                        }
                     }
-                    else {
-                        setStartAutoPlay(false);
-                    }
-                } else {
-                    if (currentValue < finishValue) {
-                        setCurrentValue(value => value + 1);
-                    }
-                    else {
-                        setStartAutoPlay(false);
-                    }
-                }
-            }, 1000)
-        }
-        return () => {
-            clearTimeout(id)
-        }
+                }, 1000)
+            }
+            return () => {
+                clearTimeout(id)
+            }
 
 
-    }, [currentValue])*/
+        }, [currentValue])*/
 
     const changeValue = () => {
         /*if (autoPlayOption) {
             setStartAutoPlay(true)
         }*/
         if (autoPlayOption) {
-            let second:any = currentValue;
+            let tempValue: any = currentValue;
             let intervalId = setInterval(() => {
                 if (conditionOfWork === 'decrease') {
 
-                    if (second > startValue) {
+                    if (tempValue > startValue) {
                         setCurrentValue(value => value - 1);
-                        second = second - 1;
-                        disableActionButton()
+                        tempValue = tempValue - 1;
+                        disableActionButton();
+                        disableSettingsButton();
+                        disableResetButton();
                     } else {
-                        setCurrentValue(finishValue)
                         clearInterval(intervalId)
                     }
-                }
-                else{
-                    if (second < finishValue) {
+                } else {
+                    if (tempValue < finishValue) {
                         setCurrentValue(value => value + 1);
-                        second = second + 1;
-                        disableActionButton()
+                        tempValue = tempValue + 1;
+                        disableActionButton();
+                        disableSettingsButton();
+                        disableResetButton();
                     } else {
-                        setCurrentValue(startValue)
                         clearInterval(intervalId)
                     }
                 }
@@ -134,8 +135,7 @@ export const Counter = () => {
             console.log('play')
 
             return
-        }
-        else {
+        } else {
             if (conditionOfWork === 'decrease') {
                 setCurrentValue(currentValue - 1);
             } else {
@@ -153,14 +153,19 @@ export const Counter = () => {
     const toggleModeModal = () => {
         setModeModal(!modeModal)
     }
+    const disableButtonWhenWorkingAutoplay = () => {
+        return currentValue !== finishValue && currentValue !== startValue
+    }
     const disableActionButton = () => {
-        if(autoPlayOption) {
-            if(conditionOfWork === 'increase') {
-                return currentValue !== startValue
-            } else{
-                return currentValue !== finishValue
+        if (autoPlayOption) {
+            if (conditionOfWork === 'increase') {
+                if(currentValue === finishValue) return true
+                return disableButtonWhenWorkingAutoplay();
+            } else {
+                if(currentValue === startValue) return true
+                return disableButtonWhenWorkingAutoplay();
             }
-        } else{
+        } else {
             if (conditionOfWork === '') {
                 return true
             } else if (conditionOfWork === 'increase') {
@@ -172,8 +177,14 @@ export const Counter = () => {
 
     }
     const disableResetButton = () => {
-        if(autoPlayOption) {
-            return true
+        if (autoPlayOption) {
+            if (conditionOfWork === 'increase') {
+                if (currentValue === startValue) return true
+                return disableButtonWhenWorkingAutoplay();
+            } else {
+                if (currentValue === finishValue) return true
+                return disableButtonWhenWorkingAutoplay();
+            }
         }
         if (conditionOfWork === '') {
             return true
@@ -183,6 +194,13 @@ export const Counter = () => {
             return currentValue === finishValue
         }
     }
+    const disableSettingsButton = () => {
+        if (autoPlayOption) {
+            return disableButtonWhenWorkingAutoplay();
+        }
+        return false
+    }
+
     const finishValueForArea = () => {
         if (conditionOfWork === 'increase') {
             return finishValue
@@ -215,6 +233,7 @@ export const Counter = () => {
                     clName={s.settings}
                     title={'settings'}
                     callback={toggleModeModal}
+                    disabled={disableSettingsButton()}
                 />
             </div>
             {modeModal && <ModalWindow
