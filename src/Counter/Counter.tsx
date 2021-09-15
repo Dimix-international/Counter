@@ -25,7 +25,7 @@ export const Counter = () => {
     }
     const [startValue, setStartValue] = useState(getStartValueFromLocalStorage());
     const [finishValue, setFinishValue] = useState(getFinishValueFromLocalStorage());
-    const [currentValue, setCurrentValue] = useState(startValue);
+    let [currentValue, setCurrentValue] = useState(startValue);
     const [modeModal, setModeModal] = useState(false);
     const [autoPlayOption, setAutoPlayOption] = useState(false)
 
@@ -39,6 +39,12 @@ export const Counter = () => {
     ]
     const [conditionOfWork, setConditionOfWork] = useState(optionOfWork[0].title)
 
+    const setValueWhenOccurChangeInSettings = () => {
+        setStartValue(startValue)
+        setCurrentValue(startValue);
+        setFinishValue(finishValue);
+        setConditionOfWork(conditionOfWork);
+    }
     useEffect(() => {
         //---conditionOfWork--
         let conditionAsString = localStorage.getItem('modeCounter')
@@ -50,12 +56,12 @@ export const Counter = () => {
     }, []);
     //---start--
     useEffect(() => {
-        setStartValue(startValue)
+        setValueWhenOccurChangeInSettings();
         localStorage.setItem('startValueOfCounter', JSON.stringify(startValue))
     }, [startValue]);
     //---finish--
     useEffect(() => {
-        setFinishValue(finishValue)
+        setValueWhenOccurChangeInSettings();
         localStorage.setItem('finishValueOfCounter', JSON.stringify(finishValue));
     }, [finishValue]);
     //---conditionOfWork--
@@ -107,13 +113,12 @@ export const Counter = () => {
             setStartAutoPlay(true)
         }*/
         if (autoPlayOption) {
-            let tempValue: any = currentValue;
             let intervalId = setInterval(() => {
                 if (conditionOfWork === 'decrease') {
 
-                    if (tempValue > startValue) {
+                    if (currentValue > startValue) {
                         setCurrentValue(value => value - 1);
-                        tempValue = tempValue - 1;
+                        currentValue = currentValue - 1;
                         disableActionButton();
                         disableSettingsButton();
                         disableResetButton();
@@ -121,9 +126,9 @@ export const Counter = () => {
                         clearInterval(intervalId)
                     }
                 } else {
-                    if (tempValue < finishValue) {
+                    if (currentValue < finishValue) {
                         setCurrentValue(value => value + 1);
-                        tempValue = tempValue + 1;
+                        currentValue = currentValue + 1;
                         disableActionButton();
                         disableSettingsButton();
                         disableResetButton();
