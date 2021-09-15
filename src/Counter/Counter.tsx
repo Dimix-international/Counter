@@ -41,9 +41,13 @@ export const Counter = () => {
 
     const setValueWhenOccurChangeInSettings = () => {
         setStartValue(startValue)
-        setCurrentValue(startValue);
         setFinishValue(finishValue);
         setConditionOfWork(conditionOfWork);
+        if (conditionOfWork === 'increase') {
+            setCurrentValue(startValue);
+        } else {
+            setCurrentValue(finishValue);
+        }
     }
     useEffect(() => {
         //---conditionOfWork--
@@ -66,16 +70,12 @@ export const Counter = () => {
     }, [finishValue]);
     //---conditionOfWork--
     useEffect(() => {
+        setValueWhenOccurChangeInSettings();
         localStorage.setItem('modeCounter', JSON.stringify(conditionOfWork));
-
-        if (conditionOfWork === 'increase' || conditionOfWork === '') {
-            setCurrentValue(startValue);
-        } else {
-            setCurrentValue(finishValue);
-        }
     }, [conditionOfWork]);
     //---autoplay--
     useEffect(() => {
+        setValueWhenOccurChangeInSettings();
         localStorage.setItem('autoPlayValue', JSON.stringify(autoPlayOption));
     }, [autoPlayOption]);
 
@@ -164,10 +164,10 @@ export const Counter = () => {
     const disableActionButton = () => {
         if (autoPlayOption) {
             if (conditionOfWork === 'increase') {
-                if(currentValue === finishValue) return true
+                if (currentValue === finishValue) return true
                 return disableButtonWhenWorkingAutoplay();
             } else {
-                if(currentValue === startValue) return true
+                if (currentValue === startValue) return true
                 return disableButtonWhenWorkingAutoplay();
             }
         } else {
