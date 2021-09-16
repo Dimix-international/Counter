@@ -8,6 +8,7 @@ type AreaPropsType = {
     value: number
 }
 export const Area:React.FC<AreaPropsType> = React.memo(({maxValue,classMaxValue,value,}) => {
+
     let finalClass = value === maxValue ? `${s.area} ${classMaxValue}` : `${s.area}`;
     return (
         <div className={finalClass}>

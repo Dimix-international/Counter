@@ -11,6 +11,7 @@ type ButtonTypeProps = {
 export const Button: React.FC<ButtonTypeProps> = React.memo((
     {clName, disabled, title, callback, autoPlayOption}
 ) => {
+
     const changeValue = () => {
         callback()
     }

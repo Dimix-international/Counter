@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import s from './Counter.module.css';
 import {Area} from "./Area/Area";
 import {Button} from "./Button/Button";
@@ -29,9 +29,7 @@ export const Counter = () => {
     const [modeModal, setModeModal] = useState(false);
     const [autoPlayOption, setAutoPlayOption] = useState(false)
 
-
-    /*const [startAutoPlay, setStartAutoPlay] = useState(false)*/
-
+    const [intervalForPause, setIntervalForPause] = useState<any>(null)
 
     const optionOfWork: Array<ConditionOfWorkType> = [
         {id: 1, title: 'increase'},
@@ -80,48 +78,13 @@ export const Counter = () => {
     }, [autoPlayOption]);
 
 
-    /*    useEffect(() => {
-            let id: any = ''
-            if (startAutoPlay) {
-                id = setTimeout(() => {
-                    if (conditionOfWork === 'decrease') {
-                        if (currentValue > startValue) {
-                            setCurrentValue(value => value - 1);
-                        }
-                        else {
-                            setStartAutoPlay(false);
-                        }
-                    } else {
-                        if (currentValue < finishValue) {
-                            setCurrentValue(value => value + 1);
-                        }
-                        else {
-                            setStartAutoPlay(false);
-                        }
-                    }
-                }, 1000)
-            }
-            return () => {
-                clearTimeout(id)
-            }
-
-
-        }, [currentValue])*/
-
     const changeValue = () => {
-        /*if (autoPlayOption) {
-            setStartAutoPlay(true)
-        }*/
         if (autoPlayOption) {
             let intervalId = setInterval(() => {
                 if (conditionOfWork === 'decrease') {
-
                     if (currentValue > startValue) {
                         setCurrentValue(value => value - 1);
                         currentValue = currentValue - 1;
-                        disableActionButton();
-                        disableSettingsButton();
-                        disableResetButton();
                     } else {
                         clearInterval(intervalId)
                     }
@@ -129,18 +92,14 @@ export const Counter = () => {
                     if (currentValue < finishValue) {
                         setCurrentValue(value => value + 1);
                         currentValue = currentValue + 1;
-                        disableActionButton();
-                        disableSettingsButton();
-                        disableResetButton();
                     } else {
                         clearInterval(intervalId)
                     }
                 }
             }, 1000)
-            console.log('play')
+            setIntervalForPause(intervalId);
 
-            return
-        } else {
+        }  else{
             if (conditionOfWork === 'decrease') {
                 setCurrentValue(currentValue - 1);
             } else {
@@ -148,16 +107,20 @@ export const Counter = () => {
             }
         }
     }
-    const resetValue = () => {
+    const resetValue = useCallback( () => {
+        clearInterval(intervalForPause);
+        setIntervalForPause(null);
         if (conditionOfWork === 'decrease') {
             setCurrentValue(finishValue);
         } else {
             setCurrentValue(startValue)
         }
-    }
-    const toggleModeModal = () => {
+    },[conditionOfWork, intervalForPause])
+
+    const toggleModeModal = useCallback(() => {
         setModeModal(!modeModal)
-    }
+    },[modeModal])
+
     const disableButtonWhenWorkingAutoplay = () => {
         return currentValue !== finishValue && currentValue !== startValue
     }
@@ -185,10 +148,10 @@ export const Counter = () => {
         if (autoPlayOption) {
             if (conditionOfWork === 'increase') {
                 if (currentValue === startValue) return true
-                return disableButtonWhenWorkingAutoplay();
+                else return false
             } else {
                 if (currentValue === finishValue) return true
-                return disableButtonWhenWorkingAutoplay();
+                else return false
             }
         }
         if (conditionOfWork === '') {
@@ -213,6 +176,7 @@ export const Counter = () => {
             return startValue
         }
     }
+
     return (
         <div className={s.counter}>
             <Area
