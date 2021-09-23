@@ -2,14 +2,14 @@ import React, {useState} from "react";
 import s from './AutoPlay.module.css'
 
 type AutoPlayPropsType = {
-    startValueAutoPlay:boolean
-    callback:(value:boolean) => void
+    startValueAutoPlay: boolean
+    callback: (value: boolean) => void
 }
-export const AutoPlay:React.FC<AutoPlayPropsType> = React.memo((
-    {
+export const AutoPlay: React.FC<AutoPlayPropsType> = React.memo(props => {
+    const {
         startValueAutoPlay,
-        callback
-    }) => {
+        callback,
+    } = props;
     const [active, setActive] = useState(startValueAutoPlay);
     const [advise, setAdvise] = useState(false);
 

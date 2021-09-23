@@ -1,4 +1,4 @@
-import React, {KeyboardEvent, useState} from 'react';
+import React, {KeyboardEvent, useCallback, useState} from 'react';
 import s from './ModalWindow.module.css'
 import {SuperInput} from "../SuperInput/SuperInput";
 import {Button} from "../Button/Button";
@@ -31,7 +31,7 @@ export const ModalWindow = React.memo((props: ModalWindowPropsType) => {
     const closeModal = () => {
         props.setModal();
     }
-    const setData = () => {
+    const setData = useCallback(() => {
         if (start < 0 || start === finish || start > finish) {
             setError(true);
             return
@@ -42,7 +42,7 @@ export const ModalWindow = React.memo((props: ModalWindowPropsType) => {
         props.setConditionOfWork(mode);
         props.setModal();
         props.setAutoPlayOption(autoPlay);
-    }
+    },[start,finish,mode,autoPlay, props ])
     return (
         <div tabIndex={0} onKeyUp={onKeyPressCloseModal} className={`${s.modal}`}>
             <div className={s.dialog}>

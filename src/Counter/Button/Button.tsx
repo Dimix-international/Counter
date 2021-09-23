@@ -2,16 +2,20 @@ import React from 'react';
 import s from './Button.module.css'
 
 type ButtonTypeProps = {
-    clName?:string
+    clName?: string
     disabled?: boolean
     title: string
     callback: () => void
     autoPlayOption?: boolean
 }
-export const Button: React.FC<ButtonTypeProps> = React.memo((
-    {clName, disabled, title, callback, autoPlayOption}
-) => {
-
+export const Button: React.FC<ButtonTypeProps> = React.memo(props => {
+    const {
+        clName,
+        disabled,
+        title,
+        callback,
+        autoPlayOption,
+    } = props;
     const changeValue = () => {
         callback()
     }

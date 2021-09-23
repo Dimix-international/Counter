@@ -1,4 +1,4 @@
-import React, {useState, KeyboardEvent, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import s from './SuperSelect.module.css'
 import {ConditionOfWorkType} from "../Counter";
 type SuperSelectPropsType = {
@@ -6,14 +6,12 @@ type SuperSelectPropsType = {
     startMode:string
     callback: (value:string) => void
 }
-export const SuperSelect: React.FC<SuperSelectPropsType> = (
-    {
+export const SuperSelect: React.FC<SuperSelectPropsType> = React.memo(props => {
+    const {
         data,
         callback,
         startMode,
-
-    }) => {
-
+    } = props;
     const[hoverElementID, setHoverElementID] = useState(startMode);
     const [active, setActive] = useState(false);
 
@@ -48,17 +46,17 @@ export const SuperSelect: React.FC<SuperSelectPropsType> = (
             {active &&
             <div className={s.body}>
                 {data.map(d => {
-                return (
-                    <div
-                        key={d.id}
-                        className={ d === hoveredItem ? `${s.item} ${s.hover}`: s.item}
-                        onClick={() => onClickHandler(d.title)}
-                        onMouseEnter={() => setHoverElementID(d.title)}
-                    >
-                        {d.title}
-                    </div>
-                )
-            })}</div>}
+                    return (
+                        <div
+                            key={d.id}
+                            className={ d === hoveredItem ? `${s.item} ${s.hover}`: s.item}
+                            onClick={() => onClickHandler(d.title)}
+                            onMouseEnter={() => setHoverElementID(d.title)}
+                        >
+                            {d.title}
+                        </div>
+                    )
+                })}</div>}
         </div>
     )
-}
+})
