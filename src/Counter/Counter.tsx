@@ -25,11 +25,12 @@ export const Counter = () => {
     }
     const [startValue, setStartValue] = useState(getStartValueFromLocalStorage);
     const [finishValue, setFinishValue] = useState(getFinishValueFromLocalStorage);
-    let [currentValue, setCurrentValue] = useState(startValue);
+    const [currentValue, setCurrentValue] = useState(startValue);
     const [modeModal, setModeModal] = useState(false);
     const [autoPlayOption, setAutoPlayOption] = useState(false)
 
     const [intervalIdForTimer, setIntervalIdForTimer] = useState<number>(0)
+    const [autoplayMode, setAutoPlayMode] = useState(false)
 
     const optionOfWork: Array<ConditionOfWorkType> = [
         {id: 1, title: 'increase'},
@@ -45,7 +46,7 @@ export const Counter = () => {
         } else {
             setCurrentValue(finishValue);
         }
-    },[startValue, finishValue, conditionOfWork])
+    }, [startValue, finishValue, conditionOfWork])
     useEffect(() => {
         //---conditionOfWork--
         let conditionAsString = localStorage.getItem('modeCounter')
@@ -77,21 +78,50 @@ export const Counter = () => {
     }, [autoPlayOption, setValueWhenOccurChangeInSettings]);
     //убрали режим скрол когда открываем модальное окно)
     useEffect(() => {
-        if(modeModal) {
+        if (modeModal) {
             document.body.classList.add(s.body_lock)
-        } else{
+        } else {
             document.body.className = ''
         }
-    },[modeModal])
+    }, [modeModal])
     const changerCurrentValueIncrease = (currentValue: number) => {
         return currentValue + 1;
     }
     const changerCurrentValueDecrease = (currentValue: number) => {
         return currentValue - 1;
     }
+    useEffect(() => {
+        if (autoplayMode) {
+            let intervalId: number = window.setInterval(() => {
+                if (conditionOfWork === 'decrease') {
+                    if (currentValue > startValue) {
+                        setCurrentValue(changerCurrentValueDecrease);
+                    } else {
+                        clearInterval(intervalId)
+                        setAutoPlayMode(false);
+                    }
+                } else {
+                    if (currentValue < finishValue) {
+                        setCurrentValue(changerCurrentValueIncrease);
+                    } else {
+                        clearInterval(intervalId);
+                        setAutoPlayMode(false);
+                    }
+                }
+            }, 1000)
+            console.log(intervalId)
+            setIntervalIdForTimer(intervalId);
+            return () => {
+                clearInterval(intervalId);
+            }
+        }
+    }, [autoPlayOption,autoplayMode,currentValue,startValue,finishValue,conditionOfWork ])
 
-    const changeValue = () => {
+    const changeValue = useCallback(() => {
         if (autoPlayOption) {
+            setAutoPlayMode(true)
+        }
+        /*if (autoPlayOption) {
             let intervalId: number = window.setInterval(() => {
                 if (conditionOfWork === 'decrease') {
                     if (currentValue > startValue) {
@@ -111,17 +141,18 @@ export const Counter = () => {
             }, 1000)
             console.log(intervalId)
             setIntervalIdForTimer(intervalId);
-        } else {
+        } */ else {
             if (conditionOfWork === 'decrease') {
                 setCurrentValue(changerCurrentValueDecrease);
             } else {
                 setCurrentValue(changerCurrentValueIncrease);
             }
         }
-    }
+    },[autoPlayOption,conditionOfWork])
     const resetValue = useCallback(() => {
         if (autoPlayOption) {
             clearInterval(intervalIdForTimer);
+            setAutoPlayMode(false)
         }
         if (conditionOfWork === 'decrease') {
             setCurrentValue(finishValue);
@@ -136,7 +167,7 @@ export const Counter = () => {
 
     const disableButtonWhenWorkingAutoplay = useMemo(() => {
         return currentValue !== finishValue && currentValue !== startValue
-    },[currentValue,finishValue,startValue ])
+    }, [currentValue, finishValue, startValue])
 
     const disableActionButton = useMemo(() => {
         if (autoPlayOption) {
@@ -155,7 +186,7 @@ export const Counter = () => {
             }
         }
 
-    },[autoPlayOption,conditionOfWork,currentValue,startValue,finishValue, disableButtonWhenWorkingAutoplay]);
+    }, [autoPlayOption, conditionOfWork, currentValue, startValue, finishValue, disableButtonWhenWorkingAutoplay]);
 
     const disableResetButton = useMemo(() => {
         if (autoPlayOption) {
@@ -180,7 +211,7 @@ export const Counter = () => {
             return disableButtonWhenWorkingAutoplay;
         }
         return false
-    },[autoPlayOption, disableButtonWhenWorkingAutoplay])
+    }, [autoPlayOption, disableButtonWhenWorkingAutoplay])
 
     const finishValueForArea = useMemo(() => {
         if (conditionOfWork === 'increase') {
@@ -188,7 +219,7 @@ export const Counter = () => {
         } else {
             return startValue
         }
-    },[conditionOfWork,finishValue,startValue ])
+    }, [conditionOfWork, finishValue, startValue])
 
     return (
         <div className={s.counter}>
