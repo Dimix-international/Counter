@@ -7,7 +7,7 @@ import {AutoPlay} from "../AutoPlay/AutoPlay";
 import {OptionsOfWorkType} from "../Redux/counter_reducer";
 
 type ModalWindowPropsType = {
-    onKeyPressCloseModal:(e: KeyboardEvent<HTMLDivElement>) => void
+    onKeyPress:(e: KeyboardEvent<HTMLDivElement>) => void
     closeModal:() => void
     start:number
     finish:number
@@ -23,7 +23,7 @@ type ModalWindowPropsType = {
 }
 export const ModalWindow:React.FC<ModalWindowPropsType> = React.memo((props: ModalWindowPropsType) => {
     const{
-        onKeyPressCloseModal,
+        onKeyPress,
         closeModal,
         start,
         finish,
@@ -39,7 +39,7 @@ export const ModalWindow:React.FC<ModalWindowPropsType> = React.memo((props: Mod
 
     } = props;
     return (
-        <div tabIndex={0} onKeyUp={onKeyPressCloseModal} className={`${s.modal}`}>
+        <div tabIndex={0} onKeyUp={onKeyPress} className={`${s.modal}`}>
             <div className={s.dialog}>
                 <div className={s.header}>
                     <div className={s.header__content}>
@@ -80,7 +80,12 @@ export const ModalWindow:React.FC<ModalWindowPropsType> = React.memo((props: Mod
                             callback={setConditionOfWork}
                         />
                     </div>
-                    <Button clName={s.btn__accept} title={'Accept'} callback={setData} disabled={error === true}/>
+                    <Button
+                        clName={s.btn__accept}
+                        title={'Accept'}
+                        callback={setData}
+                        disabled={error}
+                    />
                 </div>
             </div>
         </div>

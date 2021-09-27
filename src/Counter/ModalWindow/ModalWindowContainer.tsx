@@ -25,7 +25,7 @@ export const ModalWindowContainer = React.memo((props: ModalWindowContainerProps
     const optionOfWork = useSelector<RootReducerType, Array<OptionsOfWorkType>>(state => state.counter.optionsOfWork);
     let dispatch = useDispatch<Dispatch<GlobalCounterType>>();
 
-    const onChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let element = e.currentTarget;
         if (e.currentTarget.dataset.name) {
             const trigger: string = e.currentTarget.dataset.name;
@@ -35,13 +35,10 @@ export const ModalWindowContainer = React.memo((props: ModalWindowContainerProps
                 setFinish(Number(element.value))
             }
         }
-    }
-    const onKeyPressCloseModal = (e: KeyboardEvent<HTMLDivElement>) => e.key === 'Escape' && closeModal();
-
+    },[])
     const closeModal = useCallback(() => {
         props.setModal();
     }, [props])
-
     const setData = useCallback(() => {
         if (start < 0 || start === finish || start > finish) {
             setError(true);
@@ -51,9 +48,20 @@ export const ModalWindowContainer = React.memo((props: ModalWindowContainerProps
         dispatch(setupSettingAC(start, finish, autoPlay, conditionOfWork));
         props.setModal();
     }, [start, finish, conditionOfWork, autoPlay, dispatch, props])
+    const onKeyPress = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
+        switch (e.key) {
+            case 'Escape':
+                closeModal()
+                break;
+            case 'Enter':
+                setData();
+                break;
+            default: return
+        }
+    },[closeModal,setData])
     return (
         <ModalWindow
-            onKeyPressCloseModal={onKeyPressCloseModal}
+            onKeyPress={onKeyPress}
             closeModal={closeModal}
             start={start}
             finish={finish}
