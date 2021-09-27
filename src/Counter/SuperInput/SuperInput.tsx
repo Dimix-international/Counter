@@ -3,9 +3,10 @@ import s from './SuperInput.module.css'
 
 type SuperInputPropsType = {
     value: number
-    callback: (value: number) => void
+    callback: (e: ChangeEvent<HTMLInputElement>) => void
     error: boolean
     setError: (value: boolean) => void
+    dataName?:string
 };
 export const SuperInput: React.FC<SuperInputPropsType> = React.memo(props => {
     const {
@@ -20,10 +21,11 @@ export const SuperInput: React.FC<SuperInputPropsType> = React.memo(props => {
         if (!isFinite(+value) || value === null) return; //проверка на введенное значение
         setError(false);
         setTempValue(Number(value));
+        callback(e);
     }
-    const onBlurHandler = () => {
+    /*const onBlurHandler = () => {
         callback(tempValue);
-    }
+    }*/
     const finallyClass = error ? `${s.error} ${s.input}` : s.input;
     return (
         <>
@@ -32,7 +34,8 @@ export const SuperInput: React.FC<SuperInputPropsType> = React.memo(props => {
                 type={'text'}
                 onChange={onChangeHandler}
                 value={tempValue}
-                onBlur={onBlurHandler}
+                data-name={props.dataName}
+                //onBlur={onBlurHandler}
             />
         </>
     )
