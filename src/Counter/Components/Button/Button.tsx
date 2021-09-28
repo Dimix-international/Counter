@@ -23,7 +23,7 @@ export const Button: React.FC<ButtonTypeProps> = React.memo(props => {
     return (
         <button className={finalClass} disabled={disabled} onClick={changeValue}>
             {title}
-            {autoPlayOption && <span className={s.play}></span>}
+            {autoPlayOption && <span className={s.play}> </span>}
         </button>
     )
 })

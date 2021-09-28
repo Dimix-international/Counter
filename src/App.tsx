@@ -1,18 +1,12 @@
 import React from 'react';
 import './App.css';
-import {HashRouter} from "react-router-dom";
 import {CounterContainer} from "./Counter/CounterContainer";
 
 
-
-function App() {
+export const App = () => {
     return (
-        <HashRouter>
-            <div className="App">
-                <CounterContainer />
-            </div>
-        </HashRouter>
+        <div className="App">
+            <CounterContainer/>
+        </div>
     );
 }
-
-export default App;

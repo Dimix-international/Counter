@@ -1,22 +1,20 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import s from './Counter.module.css';
-import {Area} from "./Area/Area";
-import {Button} from "./Button/Button";
-import {ModalWindowContainer} from "./ModalWindow/ModalWindowContainer";
-
-export type ConditionOfWorkType = { id: number, title: string }
+import {Area} from "./Components/Area/Area";
+import {Button} from "./Components/Button/Button";
+import {ModalWindowContainer} from "./Components/ModalWindow/ModalWindowContainer";
 
 type CounterPropsType = {
-    startValue:number
-    finishValue:number
-    currentValue:number
-    autoPlayOption:boolean
-    conditionOfWork:string
+    startValue: number
+    finishValue: number
+    currentValue: number
+    autoPlayOption: boolean
+    conditionOfWork: string
     changeValue: () => void
-    resetValue:() => void
+    resetValue: () => void
 }
-export const Counter:React.FC<CounterPropsType> = React.memo((props) => {
-    const{
+export const Counter: React.FC<CounterPropsType> = React.memo((props) => {
+    const {
         startValue,
         finishValue,
         currentValue,
@@ -25,10 +23,14 @@ export const Counter:React.FC<CounterPropsType> = React.memo((props) => {
         changeValue,
         resetValue,
     } = props;
+
     const [modeModal, setModeModal] = useState(false); //открытие/закрытие модального окна
+
     const toggleModeModal = useCallback(() => {
         setModeModal(!modeModal)
     }, [modeModal])
+
+    //блокируем скролл всей страницы, когда открыто модальное окно
     useEffect(() => {
         if (modeModal) {
             document.body.classList.add(s.body_lock)
@@ -36,6 +38,7 @@ export const Counter:React.FC<CounterPropsType> = React.memo((props) => {
             document.body.className = ''
         }
     }, [modeModal])
+
     const disableButtonWhenWorkingAutoplay = useMemo(() => {
         return currentValue !== finishValue && currentValue !== startValue
     }, [currentValue, finishValue, startValue])
@@ -43,11 +46,9 @@ export const Counter:React.FC<CounterPropsType> = React.memo((props) => {
     const disableActionButton = useMemo(() => {
         if (autoPlayOption) {
             if (conditionOfWork === 'increase') {
-                if (currentValue === finishValue) return true
-                return disableButtonWhenWorkingAutoplay;
+                return currentValue === finishValue || disableButtonWhenWorkingAutoplay
             } else {
-                if (currentValue === startValue) return true
-                return disableButtonWhenWorkingAutoplay;
+                return currentValue === startValue || disableButtonWhenWorkingAutoplay
             }
         } else {
             if (conditionOfWork === 'increase') {
@@ -56,26 +57,7 @@ export const Counter:React.FC<CounterPropsType> = React.memo((props) => {
                 return currentValue === startValue
             }
         }
-
     }, [autoPlayOption, conditionOfWork, currentValue, startValue, finishValue, disableButtonWhenWorkingAutoplay]);
-
-    const disableResetButton = useMemo(() => {
-        if (autoPlayOption) {
-            if (conditionOfWork === 'increase') {
-                if (currentValue === startValue) return true
-                else return false
-            } else {
-                if (currentValue === finishValue) return true
-                else return false
-            }
-        } else {
-            if (conditionOfWork === 'increase') {
-                return currentValue === startValue
-            } else {
-                return currentValue === finishValue
-            }
-        }
-    }, [autoPlayOption, conditionOfWork, currentValue, startValue, finishValue])
 
     const disableSettingsButton = useMemo(() => {
         if (autoPlayOption) {
@@ -83,6 +65,15 @@ export const Counter:React.FC<CounterPropsType> = React.memo((props) => {
         }
         return false
     }, [autoPlayOption, disableButtonWhenWorkingAutoplay])
+
+    const disableResetButton = useMemo(() => {
+        if (conditionOfWork === 'increase') {
+            return currentValue === startValue;
+        } else {
+            return currentValue === finishValue
+        }
+    }, [conditionOfWork, currentValue, startValue, finishValue])
+
 
     const finishValueForArea = useMemo(() => {
         if (conditionOfWork === 'increase') {
@@ -121,7 +112,6 @@ export const Counter:React.FC<CounterPropsType> = React.memo((props) => {
                 />
             </div>
             {modeModal && <ModalWindowContainer
-                modeModal={modeModal}
                 setModal={toggleModeModal}
                 startValue={startValue}
                 finishValue={finishValue}

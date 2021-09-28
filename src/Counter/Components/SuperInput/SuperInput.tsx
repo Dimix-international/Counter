@@ -14,7 +14,7 @@ export const SuperInput: React.FC<SuperInputPropsType> = React.memo(props => {
         callback,
         error,
         setError,
-    } = props; //что не опишем можно вызвать написав props. ...имя свойства
+    } = props;
     const [tempValue, setTempValue] = useState(value);
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let value = e.currentTarget.value;
@@ -23,9 +23,7 @@ export const SuperInput: React.FC<SuperInputPropsType> = React.memo(props => {
         setTempValue(Number(value));
         callback(e);
     }
-    /*const onBlurHandler = () => {
-        callback(tempValue);
-    }*/
+
     const finallyClass = error ? `${s.error} ${s.input}` : s.input;
     return (
         <>
@@ -35,7 +33,6 @@ export const SuperInput: React.FC<SuperInputPropsType> = React.memo(props => {
                 onChange={onChangeHandler}
                 value={tempValue}
                 data-name={props.dataName}
-                //onBlur={onBlurHandler}
             />
         </>
     )

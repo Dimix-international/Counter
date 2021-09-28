@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
 import s from './SuperSelect.module.css'
-import {ConditionOfWorkType} from "../Counter";
+import {OptionsOfWorkType} from "../../Redux/counter_reducer";
+
 type SuperSelectPropsType = {
-    data:Array<ConditionOfWorkType>
-    startMode:string
-    callback: (value:string) => void
+    data: Array<OptionsOfWorkType>
+    startMode: string
+    callback: (value: string) => void
 }
 export const SuperSelect: React.FC<SuperSelectPropsType> = React.memo(props => {
     const {
@@ -12,7 +13,7 @@ export const SuperSelect: React.FC<SuperSelectPropsType> = React.memo(props => {
         callback,
         startMode,
     } = props;
-    const[hoverElementID, setHoverElementID] = useState(startMode);
+    const [hoverElementID, setHoverElementID] = useState(startMode);
     const [active, setActive] = useState(false);
 
     const selectedItem = data.find(d => d.title === startMode);
@@ -24,20 +25,20 @@ export const SuperSelect: React.FC<SuperSelectPropsType> = React.memo(props => {
     const turnOffSelect = () => {
         setActive(false);
     }
-    const onClickHandler = (title:string) => {
+    const onClickHandler = (title: string) => {
         callback(title);
         setActive(false)
     }
     useEffect(() => {
         setHoverElementID(startMode)
-    },[startMode]);
+    }, [startMode]);
 
 
     const finalClassSelect = active ? `${s.select} ${s.active}` : s.select;
     const finalClassSelectTitle = active ? `${s.title} ${s.item} ${s.active}` : `${s.title} ${s.item}`;
     return (
         <div
-            tabIndex={1}
+            tabIndex={0}
             className={finalClassSelect}
             onClick={toggleActiveOfSelect}
             onBlur={turnOffSelect}
@@ -49,7 +50,7 @@ export const SuperSelect: React.FC<SuperSelectPropsType> = React.memo(props => {
                     return (
                         <div
                             key={d.id}
-                            className={ d === hoveredItem ? `${s.item} ${s.hover}`: s.item}
+                            className={d === hoveredItem ? `${s.item} ${s.hover}` : s.item}
                             onClick={() => onClickHandler(d.title)}
                             onMouseEnter={() => setHoverElementID(d.title)}
                         >

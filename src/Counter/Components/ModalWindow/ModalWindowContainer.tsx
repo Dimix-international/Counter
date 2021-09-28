@@ -1,14 +1,13 @@
 import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "redux";
-import {GlobalCounterType, setupSettingAC} from "../Redux/actions";
-import {RootReducerType} from "../Redux/store";
-import {OptionsOfWorkType} from "../Redux/counter_reducer";
+import {setupSettingAC} from "../../Redux/actions";
+import {RootReducerType} from "../../Redux/store";
+import {OptionsOfWorkType} from "../../Redux/counter_reducer";
 import {ModalWindow} from "./ModalWindow";
 
 
 type ModalWindowContainerPropsType = {
-    modeModal: boolean
     setModal: () => void
     startValue: number
     finishValue: number
@@ -16,14 +15,22 @@ type ModalWindowContainerPropsType = {
     conditionOfWork: string
 }
 export const ModalWindowContainer = React.memo((props: ModalWindowContainerPropsType) => {
-    const [start, setStart] = useState(props.startValue);
-    const [finish, setFinish] = useState(props.finishValue);
-    const [autoPlay, setAutoPlay] = useState(props.autoPlayOption);
-    const [conditionOfWork, setConditionOfWork] = useState(props.conditionOfWork);
+    const {
+        setModal,
+        startValue,
+        finishValue,
+        autoPlayOption,
+        conditionOfWork
+    } = props;
+
+    const [start, setStart] = useState(startValue);
+    const [finish, setFinish] = useState(finishValue);
+    const [autoPlay, setAutoPlay] = useState(autoPlayOption);
+    const [condition, setCondition] = useState(conditionOfWork);
     const [error, setError] = useState(false);
 
     const optionOfWork = useSelector<RootReducerType, Array<OptionsOfWorkType>>(state => state.counter.optionsOfWork);
-    let dispatch = useDispatch<Dispatch<GlobalCounterType>>();
+    let dispatch = useDispatch<Dispatch>();
 
     const onChangeValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let element = e.currentTarget;
@@ -35,19 +42,22 @@ export const ModalWindowContainer = React.memo((props: ModalWindowContainerProps
                 setFinish(Number(element.value))
             }
         }
-    },[])
+    }, [])
+
     const closeModal = useCallback(() => {
-        props.setModal();
-    }, [props])
+        setModal();
+    }, [setModal])
+
     const setData = useCallback(() => {
         if (start < 0 || start === finish || start > finish) {
             setError(true);
             return
         }
         setError(false);
-        dispatch(setupSettingAC(start, finish, autoPlay, conditionOfWork));
-        props.setModal();
-    }, [start, finish, conditionOfWork, autoPlay, dispatch, props])
+        dispatch(setupSettingAC(start, finish, autoPlay, condition));
+        setModal();
+    }, [start, finish, condition, autoPlay, dispatch, setModal])
+
     const onKeyPress = useCallback((e: KeyboardEvent<HTMLDivElement>) => {
         switch (e.key) {
             case 'Escape':
@@ -56,9 +66,11 @@ export const ModalWindowContainer = React.memo((props: ModalWindowContainerProps
             case 'Enter':
                 setData();
                 break;
-            default: return
+            default:
+                return
         }
-    },[closeModal,setData])
+    }, [closeModal, setData])
+
     return (
         <ModalWindow
             onKeyPress={onKeyPress}
@@ -71,8 +83,8 @@ export const ModalWindowContainer = React.memo((props: ModalWindowContainerProps
             autoPlay={autoPlay}
             setAutoPlay={setAutoPlay}
             optionOfWork={optionOfWork}
-            conditionOfWork={conditionOfWork}
-            setConditionOfWork={setConditionOfWork}
+            conditionOfWork={condition}
+            setConditionOfWork={setCondition}
             setData={setData}
         />
     )

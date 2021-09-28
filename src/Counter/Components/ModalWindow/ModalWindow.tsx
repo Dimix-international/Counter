@@ -4,25 +4,25 @@ import {SuperInput} from "../SuperInput/SuperInput";
 import {Button} from "../Button/Button";
 import {SuperSelect} from "../SuperSelect/SuperSelect";
 import {AutoPlay} from "../AutoPlay/AutoPlay";
-import {OptionsOfWorkType} from "../Redux/counter_reducer";
+import {OptionsOfWorkType} from "../../Redux/counter_reducer";
 
 type ModalWindowPropsType = {
-    onKeyPress:(e: KeyboardEvent<HTMLDivElement>) => void
-    closeModal:() => void
-    start:number
-    finish:number
-    onChangeValue:(e: ChangeEvent<HTMLInputElement>)=> void
-    error:boolean
-    setError:(value:boolean) => void
-    autoPlay:boolean
-    setAutoPlay:(value:boolean) => void
+    onKeyPress: (e: KeyboardEvent<HTMLDivElement>) => void
+    closeModal: () => void
+    start: number
+    finish: number
+    onChangeValue: (e: ChangeEvent<HTMLInputElement>) => void
+    error: boolean
+    setError: (value: boolean) => void
+    autoPlay: boolean
+    setAutoPlay: (value: boolean) => void
     optionOfWork: Array<OptionsOfWorkType>
-    conditionOfWork:string
-    setConditionOfWork:(value:string) => void
-    setData:() => void
+    conditionOfWork: string
+    setConditionOfWork: (value: string) => void
+    setData: () => void
 }
-export const ModalWindow:React.FC<ModalWindowPropsType> = React.memo((props: ModalWindowPropsType) => {
-    const{
+export const ModalWindow: React.FC<ModalWindowPropsType> = React.memo((props: ModalWindowPropsType) => {
+    const {
         onKeyPress,
         closeModal,
         start,
@@ -36,10 +36,10 @@ export const ModalWindow:React.FC<ModalWindowPropsType> = React.memo((props: Mod
         conditionOfWork,
         setConditionOfWork,
         setData,
-
     } = props;
+
     return (
-        <div tabIndex={0} onKeyUp={onKeyPress} className={`${s.modal}`}>
+        <div onKeyUp={onKeyPress} className={`${s.modal}`}>
             <div className={s.dialog}>
                 <div className={s.header}>
                     <div className={s.header__content}>

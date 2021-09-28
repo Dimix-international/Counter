@@ -1,19 +1,10 @@
-import {ACTIONS_TYPE, GlobalCounterType} from "./actions";
+import {ACTIONS_TYPE, ActionCounterType} from "./actions";
 
 export type OptionsOfWorkType = {
     id:number,
     title:string
 }
-export type InitialStateType = {
-    startValue:number
-    finishValue:number
-    currentValue:number
-    modeModal:boolean
-    autoPlayOption:boolean
-    optionsOfWork:Array<OptionsOfWorkType>
-    conditionOfWork:string
-}
-const initialState:InitialStateType = {
+const initialState = {
     startValue:0,
     finishValue:5,
     currentValue:0,
@@ -22,10 +13,11 @@ const initialState:InitialStateType = {
     optionsOfWork: [
         {id: 1, title: 'increase'},
         {id: 2, title: 'decrease'}
-    ],
+    ] as Array<OptionsOfWorkType>,
     conditionOfWork:'increase'
 }
-export const counterReducer = (state:InitialStateType = initialState, action:GlobalCounterType):InitialStateType => {
+export type InitialStateType = typeof initialState;
+export const counterReducer = (state:InitialStateType = initialState, action:ActionCounterType):InitialStateType => {
     switch (action.type){
         case ACTIONS_TYPE.SET_START_VALUE: {
             return {
