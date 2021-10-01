@@ -38,7 +38,7 @@ export const SuperSelect: React.FC<SuperSelectPropsType> = React.memo(props => {
     const finalClassSelectTitle = active ? `${s.title} ${s.item} ${s.active}` : `${s.title} ${s.item}`;
     return (
         <div
-            tabIndex={0}
+            tabIndex={1}
             className={finalClassSelect}
             onClick={toggleActiveOfSelect}
             onBlur={turnOffSelect}

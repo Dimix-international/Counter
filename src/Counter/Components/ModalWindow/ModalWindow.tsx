@@ -37,9 +37,11 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = React.memo((props: Mo
         setConditionOfWork,
         setData,
     } = props;
-
+    const closeModalWindow = () => {
+        closeModal();
+    }
     return (
-        <div onKeyUp={onKeyPress} className={`${s.modal}`}>
+        <div tabIndex={0} onKeyUp={onKeyPress} className={`${s.modal}`}>
             <div className={s.dialog}>
                 <div className={s.header}>
                     <div className={s.header__content}>
@@ -88,6 +90,7 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = React.memo((props: Mo
                     />
                 </div>
             </div>
+            <div onClick={closeModalWindow} className={s.background}> </div>
         </div>
     )
 })

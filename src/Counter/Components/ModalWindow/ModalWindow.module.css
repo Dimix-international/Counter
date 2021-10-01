@@ -4,22 +4,31 @@
     bottom:0;
     left:0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.8);
     overflow: auto;
     overflow-x: hidden;
     transition: all 0.8s;
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
+}
+.background {
+    position: absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 998;
 }
 .dialog {
-    justify-content: center;
-    align-items: center;
+    position: absolute;
     max-height: 80vh;
     background-color: #fff;
     border-radius: 5px;
     width: 600px;
     padding: 10px;
+    z-index: 999;
 }
 @media (max-width: 600px) {
     .dialog {
