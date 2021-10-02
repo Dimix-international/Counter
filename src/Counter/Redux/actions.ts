@@ -7,6 +7,7 @@ export enum ACTIONS_TYPE {
     SET_FINISH_VALUE = 'CHANGE_FINISH_VALUE/COUNTER_COMPONENT',
     SET_CONDITION_OF_WORK = 'CHANGE_CONDITION_OF_WORK/COUNTER_COMPONENT',
     SET_AUTOPLAY_OPTION = 'SET_AUTOPLAY_OPTION/COUNTER_COMPONENT',
+    SET_SPEED_AUTOPLAY_OPTION = 'SET_SPEED_AUTOPLAY_OPTION/COUNTER_COMPONENT '
 }
 
 type SetStartValueType = ReturnType<typeof setStartValueAC>
@@ -44,6 +45,14 @@ export const setConditionOfWorkAC = (conditionOfWork: string) => {
         conditionOfWork,
     } as const
 }
+type SetSpeedAutoplayOption = ReturnType<typeof setSpeedAutoplayOption>
+export const setSpeedAutoplayOption = (speedAutoplayOption: number) => {
+    return {
+        type: ACTIONS_TYPE.SET_SPEED_AUTOPLAY_OPTION,
+        speedAutoplayOption,
+    } as const
+}
+
 type IncreaseCurrentValueType = ReturnType<typeof increaseCurrentValueAC>
 export const increaseCurrentValueAC = () => {
     return {
@@ -63,9 +72,10 @@ type SetupSettingType = {
         finishValue: number,
         autoPlayOption: boolean,
         conditionOfWork: string
+        speedAutoplayOption: number
     }
 }
-export const setupSettingAC = (startValue: number, finishValue: number, autoPlayOption: boolean, conditionOfWork: string): SetupSettingType => {
+export const setupSettingAC = (startValue: number, finishValue: number, autoPlayOption: boolean, conditionOfWork: string, speedAutoplayOption: number): SetupSettingType => {
     return {
         type: ACTIONS_TYPE.GENERAL_SETTINGS,
         payload: {
@@ -73,6 +83,7 @@ export const setupSettingAC = (startValue: number, finishValue: number, autoPlay
             finishValue,
             autoPlayOption,
             conditionOfWork,
+            speedAutoplayOption,
         }
     }
 }
@@ -83,6 +94,7 @@ export type ActionCounterType =
     | SetCurrentValueType
     | SetAutoPlayOptionType
     | SetConditionOfWorkType
+    | SetSpeedAutoplayOption
     | IncreaseCurrentValueType
     | DecreaseCurrentValueType
     ;

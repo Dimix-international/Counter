@@ -1,9 +1,14 @@
 import {Counter} from "./Counter";
 import {useDispatch, useSelector} from "react-redux";
 import {RootReducerType} from "./Redux/store";
-import {decreaseCurrentValueAC, increaseCurrentValueAC, setCurrentValueAC} from "./Redux/actions";
+import {
+    decreaseCurrentValueAC,
+    increaseCurrentValueAC,
+    setCurrentValueAC
+} from "./Redux/actions";
 import React, {useCallback, useEffect, useState} from "react";
 import {Dispatch} from "redux";
+import {speedCounterWhenAutoplay} from "./utils/speedCounterWhenAutoplay";
 
 
 export const CounterContainer = React.memo(() => {
@@ -12,51 +17,52 @@ export const CounterContainer = React.memo(() => {
     const currentValue = useSelector<RootReducerType, number>(state => state.counter.currentValue)
     const conditionOfWork = useSelector<RootReducerType, string>(state => state.counter.conditionOfWork)
     const autoPlayOption = useSelector<RootReducerType, boolean>(state => state.counter.autoPlayOption)
+    const speedAutoplayOption = useSelector<RootReducerType, number>(state => state.counter.speedAutoplayOption)
 
     const [intervalIdForTimer, setIntervalIdForTimer] = useState(0)
     const [autoplayMode, setAutoPlayMode] = useState(false); //для запуска useEffect
-
-
     let dispatch = useDispatch<Dispatch>();
+
+    let speedPlayingAutoplay: number = speedCounterWhenAutoplay(speedAutoplayOption);
 
     useEffect(() => {
         if (autoplayMode) {
             let intervalId: number = window.setInterval(() => {
-                if (conditionOfWork === 'decrease') {
-                    if (currentValue > startValue) {
-                        dispatch(decreaseCurrentValueAC());
-                    } else {
-                        clearInterval(intervalId)
-                        setAutoPlayMode(false);
-                    }
-                } else {
+                if (conditionOfWork === 'increase') {
                     if (currentValue < finishValue) {
                         dispatch(increaseCurrentValueAC());
                     } else {
                         clearInterval(intervalId);
                         setAutoPlayMode(false);
                     }
+                } else {
+                    if (currentValue > startValue) {
+                        dispatch(decreaseCurrentValueAC());
+                    } else {
+                        clearInterval(intervalId)
+                        setAutoPlayMode(false);
+                    }
                 }
-            }, 1000)
+            }, speedPlayingAutoplay)
             setIntervalIdForTimer(intervalId);
             return () => {
                 clearInterval(intervalId);
             }
         }
-    }, [autoPlayOption, autoplayMode, currentValue, startValue, finishValue, conditionOfWork, dispatch])
+    }, [autoPlayOption, autoplayMode, currentValue, startValue, finishValue, conditionOfWork, speedPlayingAutoplay, dispatch])
 
     useEffect(() => {
-        dispatch(setCurrentValueAC(conditionOfWork === 'decrease' ? finishValue : startValue))
+        dispatch(setCurrentValueAC(conditionOfWork === 'increase' ? startValue : finishValue))
     }, [startValue, finishValue, conditionOfWork, dispatch])
 
     const changeValue = useCallback(() => {
         if (autoPlayOption) {
             setAutoPlayMode(true)
         } else {
-            if (conditionOfWork === 'decrease') {
-                dispatch(decreaseCurrentValueAC())
-            } else {
+            if (conditionOfWork === 'increase') {
                 dispatch(increaseCurrentValueAC())
+            } else {
+                dispatch(decreaseCurrentValueAC())
             }
         }
     }, [autoPlayOption, conditionOfWork, dispatch])
@@ -66,10 +72,10 @@ export const CounterContainer = React.memo(() => {
             clearInterval(intervalIdForTimer);
             setAutoPlayMode(false)
         }
-        if (conditionOfWork === 'decrease') {
-            dispatch(setCurrentValueAC(finishValue))
-        } else {
+        if (conditionOfWork === 'increase') {
             dispatch(setCurrentValueAC(startValue))
+        } else {
+            dispatch(setCurrentValueAC(finishValue))
         }
     }, [conditionOfWork, intervalIdForTimer, autoPlayOption, startValue, finishValue, dispatch])
 
@@ -79,6 +85,7 @@ export const CounterContainer = React.memo(() => {
             finishValue={finishValue}
             currentValue={currentValue}
             autoPlayOption={autoPlayOption}
+            speedAutoplayOption={speedAutoplayOption}
             conditionOfWork={conditionOfWork}
             changeValue={changeValue}
             resetValue={resetValue}

@@ -36,8 +36,10 @@ export const AutoPlay: React.FC<AutoPlayPropsType> = React.memo(props => {
             >
             </div>
             {advise &&
-            <div className={s.advise}>
-                autoplay
+            <div>
+                <div className={s.advise}>
+                    autoplay
+                </div>
             </div>
             }
         </div>

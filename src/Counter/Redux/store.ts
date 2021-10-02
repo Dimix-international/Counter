@@ -14,3 +14,5 @@ store.subscribe(() => {
         counter: store.getState().counter
     })
 })
+// @ts-ignore
+window.store = store

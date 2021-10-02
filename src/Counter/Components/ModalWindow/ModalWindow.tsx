@@ -5,6 +5,7 @@ import {Button} from "../Button/Button";
 import {SuperSelect} from "../SuperSelect/SuperSelect";
 import {AutoPlay} from "../AutoPlay/AutoPlay";
 import {OptionsOfWorkType} from "../../Redux/counter_reducer";
+import {SuperRange} from "../SuperRange/SuperRange";
 
 type ModalWindowPropsType = {
     onKeyPress: (e: KeyboardEvent<HTMLDivElement>) => void
@@ -16,6 +17,8 @@ type ModalWindowPropsType = {
     setError: (value: boolean) => void
     autoPlay: boolean
     setAutoPlay: (value: boolean) => void
+    speed:number
+    setSpeed: (value: number) => void
     optionOfWork: Array<OptionsOfWorkType>
     conditionOfWork: string
     setConditionOfWork: (value: string) => void
@@ -32,6 +35,8 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = React.memo((props: Mo
         setError,
         autoPlay,
         setAutoPlay,
+        speed,
+        setSpeed,
         optionOfWork,
         conditionOfWork,
         setConditionOfWork,
@@ -69,13 +74,26 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = React.memo((props: Mo
                         />
                     </div>
                     <div className={s.mode}>
-                        <div className={s.mode__title}>
+                        <div className={autoPlay ? `${s.mode__title} ${s.mode_margin}` : s.mode__title}>
                             <div>Choose mode</div>
                             <AutoPlay
                                 startValueAutoPlay={autoPlay}
                                 callback={setAutoPlay}
                             />
                         </div>
+                        {autoPlay &&
+                        <div className={s.speed}>
+                            <div className={s.speed__body}>
+                                <span className={s.speed__title}>Speed: <span>{speed}X</span></span>
+                            </div>
+                            <div>
+                                <SuperRange
+                                    value={speed}
+                                    callback={setSpeed}
+                                />
+                            </div>
+                        </div>
+                        }
                         <SuperSelect
                             data={optionOfWork}
                             startMode={conditionOfWork}

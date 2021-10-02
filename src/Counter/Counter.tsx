@@ -9,6 +9,7 @@ type CounterPropsType = {
     finishValue: number
     currentValue: number
     autoPlayOption: boolean
+    speedAutoplayOption: number
     conditionOfWork: string
     changeValue: () => void
     resetValue: () => void
@@ -19,6 +20,7 @@ export const Counter: React.FC<CounterPropsType> = React.memo((props) => {
         finishValue,
         currentValue,
         autoPlayOption,
+        speedAutoplayOption,
         conditionOfWork,
         changeValue,
         resetValue,
@@ -29,7 +31,6 @@ export const Counter: React.FC<CounterPropsType> = React.memo((props) => {
     const toggleModeModal = useCallback(() => {
         setModeModal(!modeModal)
     }, [modeModal])
-
     //блокируем скролл всей страницы, когда открыто модальное окно
     useEffect(() => {
         if (modeModal) {
@@ -116,6 +117,7 @@ export const Counter: React.FC<CounterPropsType> = React.memo((props) => {
                 startValue={startValue}
                 finishValue={finishValue}
                 autoPlayOption={autoPlayOption}
+                speedAutoplayOption={speedAutoplayOption}
                 conditionOfWork={conditionOfWork}
             />}
         </div>

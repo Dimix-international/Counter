@@ -10,6 +10,7 @@ const initialState = {
     currentValue:0,
     modeModal:false,
     autoPlayOption:false,
+    speedAutoplayOption: 1,
     optionsOfWork: [
         {id: 1, title: 'increase'},
         {id: 2, title: 'decrease'}
@@ -19,33 +20,17 @@ const initialState = {
 export type InitialStateType = typeof initialState;
 export const counterReducer = (state:InitialStateType = initialState, action:ActionCounterType):InitialStateType => {
     switch (action.type){
-        case ACTIONS_TYPE.SET_START_VALUE: {
-            return {
-                ...state,
-                startValue:action.startValue
-            }
-        }
-        case ACTIONS_TYPE.SET_FINISH_VALUE: {
-            return {
-                ...state,
-                finishValue:action.finishValue
-            }
-        }
+        case ACTIONS_TYPE.SET_START_VALUE:
+        case ACTIONS_TYPE.SET_FINISH_VALUE:
         case ACTIONS_TYPE.SET_CURRENT_VALUE:
-            return{
-                ...state,
-                currentValue:action.currentValue
-            }
         case ACTIONS_TYPE.SET_AUTOPLAY_OPTION:
+        case ACTIONS_TYPE.SET_SPEED_AUTOPLAY_OPTION:
+        case ACTIONS_TYPE.SET_CONDITION_OF_WORK: {
             return {
                 ...state,
-                autoPlayOption: action.autoPlayOption
+                ...action
             }
-        case ACTIONS_TYPE.SET_CONDITION_OF_WORK:
-            return {
-                ...state,
-                conditionOfWork:action.conditionOfWork
-            }
+        }
         case ACTIONS_TYPE.GENERAL_SETTINGS: {
             if(action.payload.conditionOfWork === 'increase') {
                 return {

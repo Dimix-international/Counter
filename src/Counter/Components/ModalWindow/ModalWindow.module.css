@@ -74,6 +74,18 @@
     display: flex;
     align-items: center;
 }
+.mode_margin {
+    margin-bottom: 0;
+}
+.speed {
+    margin-bottom: 10px;
+}
+.speed__title {
+    font-size: 18px;
+}
+.speed__title span{
+    font-weight: 700;
+}
 .mode__title div {
     margin-right: 10px;
 }
