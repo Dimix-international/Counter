@@ -78,6 +78,8 @@
     margin-bottom: 0;
 }
 .speed {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 10px;
 }
 .speed__title {
@@ -86,8 +88,14 @@
 .speed__title span{
     font-weight: 700;
 }
+.speed__body {
+    margin-bottom: 15px;
+}
+.range {
+    margin-bottom: 10px;
+}
 .mode__title div {
-    margin-right: 10px;
+    margin-right: 8px;
 }
 
 .error {

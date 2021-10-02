@@ -86,7 +86,7 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = React.memo((props: Mo
                             <div className={s.speed__body}>
                                 <span className={s.speed__title}>Speed: <span>{speed}X</span></span>
                             </div>
-                            <div>
+                            <div className={s.range}>
                                 <SuperRange
                                     value={speed}
                                     callback={setSpeed}

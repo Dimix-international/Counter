@@ -1,17 +1,38 @@
+.container {
+    position: relative;
+    width: 170px;
+}
 .input{
     appearance: none;
-    border: none;
+    width: 100%;
     outline: none;
-    height: 5px;
-    width: 150px;
-    border-radius: 5px;
-    background: green;
-    cursor: pointer;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    background-color: transparent;
+    pointer-events: none;
 }
 .input::-webkit-slider-thumb{
     appearance: none;
-    width: 20px;
+    width: 35px;
     height: 20px;
-    background: green;
-    border-radius: 50%;
+    background-color: green;
+    border-radius: 5px;
+    cursor: pointer;
+    pointer-events: auto;
+    margin-top: -3px;
+}
+.input:active::-webkit-slider-thumb {
+    background-color: #fff;
+    border: 3px solid green;
+}
+.track {
+    width: 100%;
+    background-color: grey;
+    height: 5px;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
 }
