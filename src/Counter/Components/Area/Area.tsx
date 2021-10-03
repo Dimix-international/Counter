@@ -13,6 +13,7 @@ export const Area: React.FC<AreaPropsType> = React.memo(props => {
         classMaxValue,
         value,
     } = props;
+
     let finalClass = value === maxValue ? `${s.area} ${classMaxValue}` : `${s.area}`;
     return (
         <div className={finalClass}>

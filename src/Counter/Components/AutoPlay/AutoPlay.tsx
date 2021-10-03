@@ -10,9 +10,9 @@ export const AutoPlay: React.FC<AutoPlayPropsType> = React.memo(props => {
         startValueAutoPlay,
         callback,
     } = props;
+
     const [active, setActive] = useState(startValueAutoPlay);
     const [advise, setAdvise] = useState(false);
-
 
     const finalClass = active ? `${s.play} ${s.active}` : s.play;
     const onClickHandler = () => {

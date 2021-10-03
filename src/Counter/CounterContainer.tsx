@@ -12,12 +12,14 @@ import {speedCounterWhenAutoplay} from "./utils/speedCounterWhenAutoplay";
 
 
 export const CounterContainer = React.memo(() => {
-    const startValue = useSelector<RootReducerType, number>(state => state.counter.startValue)
-    const finishValue = useSelector<RootReducerType, number>(state => state.counter.finishValue)
-    const currentValue = useSelector<RootReducerType, number>(state => state.counter.currentValue)
-    const conditionOfWork = useSelector<RootReducerType, string>(state => state.counter.conditionOfWork)
-    const autoPlayOption = useSelector<RootReducerType, boolean>(state => state.counter.autoPlayOption)
-    const speedAutoplayOption = useSelector<RootReducerType, number>(state => state.counter.speedAutoplayOption)
+    const {
+        startValue,
+        finishValue,
+        currentValue,
+        conditionOfWork,
+        autoPlayOption,
+        speedAutoplayOption,
+    } = useSelector<RootReducerType, any>(state => state.counter)
 
     const [intervalIdForTimer, setIntervalIdForTimer] = useState(0)
     const [autoplayMode, setAutoPlayMode] = useState(false); //для запуска useEffect

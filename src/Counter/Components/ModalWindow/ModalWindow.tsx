@@ -45,6 +45,7 @@ export const ModalWindow: React.FC<ModalWindowPropsType> = React.memo((props: Mo
     const closeModalWindow = () => {
         closeModal();
     }
+
     return (
         <div tabIndex={0} onKeyUp={onKeyPress} className={`${s.modal}`}>
             <div className={s.dialog}>
