@@ -2,9 +2,9 @@ import React from 'react';
 import s from "./Area.module.css";
 
 
-type AreaPropsType = {
+export type AreaPropsType = {
     maxValue: number
-    classMaxValue: string
+    classMaxValue?: string
     value: number
 }
 export const Area: React.FC<AreaPropsType> = React.memo(props => {

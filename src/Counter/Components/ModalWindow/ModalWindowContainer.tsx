@@ -7,7 +7,7 @@ import {OptionsOfWorkType} from "../../Redux/counter_reducer";
 import {ModalWindow} from "./ModalWindow";
 
 
-type ModalWindowContainerPropsType = {
+export type ModalWindowContainerPropsType = {
     setModal: () => void
     startValue: number
     finishValue: number

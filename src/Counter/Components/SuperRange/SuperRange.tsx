@@ -1,11 +1,11 @@
 import React, {ChangeEvent, useState} from "react";
 import s from './SuperRange.module.css'
 
-type SuperInputPropsType = {
+export type SuperRangePropsType = {
     value: number
     callback: (value: number) => void
 };
-export const SuperRange: React.FC<SuperInputPropsType> = React.memo(props => {
+export const SuperRange: React.FC<SuperRangePropsType> = React.memo(props => {
     const {
         value,
         callback,
