@@ -1,25 +1,27 @@
 import {ACTIONS_TYPE, ActionCounterType} from "./actions";
 
 export type OptionsOfWorkType = {
-    id:number,
-    title:string
-}
+    id: number,
+    title: string,
+};
+
 const initialState = {
-    startValue:0,
-    finishValue:5,
-    currentValue:0,
-    modeModal:false,
-    autoPlayOption:false,
+    startValue: 0,
+    finishValue: 5,
+    currentValue: 0,
+    modeModal: false,
+    autoPlayOption: false,
     speedAutoplayOption: 1,
     optionsOfWork: [
         {id: 1, title: 'increase'},
         {id: 2, title: 'decrease'}
     ] as Array<OptionsOfWorkType>,
-    conditionOfWork:'increase'
-}
+    conditionOfWork: 'increase'
+};
+
 export type InitialStateType = typeof initialState;
-export const counterReducer = (state:InitialStateType = initialState, action:ActionCounterType):InitialStateType => {
-    switch (action.type){
+export const counterReducer = (state: InitialStateType = initialState, action: ActionCounterType): InitialStateType => {
+    switch (action.type) {
         case ACTIONS_TYPE.SET_START_VALUE:
         case ACTIONS_TYPE.SET_FINISH_VALUE:
         case ACTIONS_TYPE.SET_CURRENT_VALUE:
@@ -32,13 +34,13 @@ export const counterReducer = (state:InitialStateType = initialState, action:Act
             }
         }
         case ACTIONS_TYPE.GENERAL_SETTINGS: {
-            if(action.payload.conditionOfWork === 'increase') {
+            if (action.payload.conditionOfWork === 'increase') {
                 return {
                     ...state,
                     ...action.payload,
                     currentValue: action.payload.startValue
                 }
-            } else{
+            } else {
                 return {
                     ...state,
                     ...action.payload,

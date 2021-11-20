@@ -1,6 +1,6 @@
 import {Counter} from "./Counter";
 import {useDispatch, useSelector} from "react-redux";
-import {RootReducerType} from "./Redux/store";
+import {rootReducer, RootReducerType} from "./Redux/store";
 import {
     decreaseCurrentValueAC,
     increaseCurrentValueAC,
@@ -9,7 +9,8 @@ import {
 import React, {useCallback, useEffect, useState} from "react";
 import {Dispatch} from "redux";
 import {speedCounterWhenAutoplay} from "./utils/speedCounterWhenAutoplay";
-
+import {InitialStateType} from "./Redux/counter_reducer";
+import {CounterContext} from "./counterContext";
 
 export const CounterContainer = React.memo(() => {
     const {
@@ -19,16 +20,17 @@ export const CounterContainer = React.memo(() => {
         conditionOfWork,
         autoPlayOption,
         speedAutoplayOption,
-    } = useSelector<RootReducerType, any>(state => state.counter)
+    } = useSelector<RootReducerType, InitialStateType>(state => state.counter)
 
     const [intervalIdForTimer, setIntervalIdForTimer] = useState(0)
     const [autoplayMode, setAutoPlayMode] = useState(false); //для запуска useEffect
-    let dispatch = useDispatch<Dispatch>();
+    const dispatch = useDispatch<Dispatch>();
 
     let speedPlayingAutoplay: number = speedCounterWhenAutoplay(speedAutoplayOption);
 
     useEffect(() => {
         if (autoplayMode) {
+            //вынести в отдел функцию
             let intervalId: number = window.setInterval(() => {
                 if (conditionOfWork === 'increase') {
                     if (currentValue < finishValue) {
@@ -82,15 +84,18 @@ export const CounterContainer = React.memo(() => {
     }, [conditionOfWork, intervalIdForTimer, autoPlayOption, startValue, finishValue, dispatch])
 
     return (
-        <Counter
-            startValue={startValue}
-            finishValue={finishValue}
-            currentValue={currentValue}
-            autoPlayOption={autoPlayOption}
-            speedAutoplayOption={speedAutoplayOption}
-            conditionOfWork={conditionOfWork}
+        <CounterContext.Provider value={{
+            startValue,
+            finishValue,
+            currentValue,
+            autoPlayOption,
+            speedAutoplayOption,
+            conditionOfWork,
+        }}>
+            <Counter
             changeValue={changeValue}
             resetValue={resetValue}
         />
+        </CounterContext.Provider>
     )
 })

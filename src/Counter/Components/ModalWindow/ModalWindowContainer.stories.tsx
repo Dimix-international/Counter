@@ -22,10 +22,10 @@ export const ModalWindowContainerBasic = Template.bind({});
 const setModalCallback = action('event setModalCallback was happened')
 ModalWindowContainerBasic.args = {
     setModal: setModalCallback,
-    startValue: 10,
+/*    startValue: 10,
     finishValue: 20,
     autoPlayOption: true,
     speedAutoplayOption: 2,
-    conditionOfWork: 'increase'
+    conditionOfWork: 'increase'*/
 };
 

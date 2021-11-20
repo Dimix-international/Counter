@@ -1,37 +1,46 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
+import React, {
+    ChangeEvent,
+    KeyboardEvent,
+    useCallback,
+    useContext,
+    useState
+} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import {Dispatch} from "redux";
 import {setupSettingAC} from "../../Redux/actions";
 import {RootReducerType} from "../../Redux/store";
 import {OptionsOfWorkType} from "../../Redux/counter_reducer";
 import {ModalWindow} from "./ModalWindow";
+import {CounterContext} from "../../counterContext";
 
 
 export type ModalWindowContainerPropsType = {
     setModal: () => void
-    startValue: number
-    finishValue: number
-    autoPlayOption: boolean
-    speedAutoplayOption:number
-    conditionOfWork: string
+    toggleModeModal: () => void
 }
-export const ModalWindowContainer:React.FC<ModalWindowContainerPropsType> = React.memo((props) => {
+
+
+export const ModalWindowContainer: React.FC<ModalWindowContainerPropsType> = React.memo(({setModal, toggleModeModal}) => {
+
     const {
-        setModal,
         startValue,
         finishValue,
         autoPlayOption,
         speedAutoplayOption,
         conditionOfWork
-    } = props;
+    } = useContext(CounterContext)
+
     const [start, setStart] = useState(startValue);
     const [finish, setFinish] = useState(finishValue);
     const [autoPlay, setAutoPlay] = useState(autoPlayOption);
     const [speed, setSpeed] = useState(speedAutoplayOption)
     const [condition, setCondition] = useState(conditionOfWork);
     const [error, setError] = useState(false);
+
     const optionOfWork = useSelector<RootReducerType, Array<OptionsOfWorkType>>(state => state.counter.optionsOfWork);
-    let dispatch = useDispatch<Dispatch>();
+
+    const dispatch = useDispatch<Dispatch>();
+
 
     const onChangeValue = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         let element = e.currentTarget;
@@ -55,7 +64,7 @@ export const ModalWindowContainer:React.FC<ModalWindowContainerPropsType> = Reac
             return
         }
         setError(false);
-        dispatch(setupSettingAC(start, finish, autoPlay, condition,speed ));
+        dispatch(setupSettingAC(start, finish, autoPlay, condition, speed));
         setModal();
     }, [start, finish, condition, autoPlay, dispatch, setModal, speed])
 
